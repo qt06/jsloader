@@ -2,12 +2,12 @@
 // http://bbs.xiuno.com/
 // modified by 杨永全
 // usage:
-// jsloader.load('a.js','b.js','c.js',function() { alert('all js has loaded.'); });
+// ZDResourceLoader.load('a.js','b.js','c.js',function() { alert('all js has loaded.'); });
 
 (function(window) {
-	var jsloader = {};
-	jsloader.loaded = []; // 已经加载的JS
-	jsloader.load = function() {
+	var ZDResourceLoader = {};
+	ZDResourceLoader.loaded = []; // 已经加载的JS
+	ZDResourceLoader.load = function() {
 		var args = null;
 		if (typeof arguments[0] == 'object') {
 			args = arguments[0];
@@ -21,16 +21,23 @@
 		this.load = function(args, i) {
 			if (typeof args[i] == 'string') {
 				var js = args[i];
-				if (jsloader.loaded.indexOf && jsloader.loaded.indexOf(js) != -1) {
+				if (ZDResourceLoader.loaded.indexOf && ZDResourceLoader.loaded.indexOf(js) != -1) {
 					if (i < args.length) {
 						this.load(args, i + 1);
 					}
 					return;
 				}
-				jsloader.loaded.push(js);
-
-				var script = document.createElement("script");
-				script.src = js;
+				ZDResourceLoader.loaded.push(js);
+				var script;
+				if(js.split('.').pop() == 'css') {
+					script = document.createElement('link');
+					script.href = js;
+					script.rel="stylesheet";
+					script.type="text/css";
+				} else {
+					script = document.createElement("script");
+					script.src = js;
+				}
 				// recall next
 				if (i < args.length) {
 					var _this = this;
@@ -62,6 +69,6 @@
 		};
 		this.load(args, 0);
 	}
-	window.jsloader = jsloader;
+	window.ZDResourceLoader = window.zdrl = ZDResourceLoader;
 	//end
 })(window);
