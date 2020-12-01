@@ -1,4 +1,4 @@
-# jsloader
+# zd resource loader
 
 a simple js loader
 
