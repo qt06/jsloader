@@ -10,3 +10,4 @@ zdrl.load('a.js', 'b.js', 'c.js', function() {
 	alert('ok');
 });
 ```
+
